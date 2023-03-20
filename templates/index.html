@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>chatGPT_3.5</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background: #343541;
+        }
+
+        /*
+                loading------------------------------------------------------------
+                 */
+        /* 加载动画 */
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+            -webkit-animation: spin 1s ease-in-out infinite;
+
+            box-shadow: inset 0 0 5px 1px rgba(255, 255, 255, 0);
+
+        }
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+                box-shadow: inset 0 0 5px 1px rgb(255, 255, 255);
+            }
+
+        }
+
+        @-webkit-keyframes spin {
+            to {
+                -webkit-transform: rotate(360deg);
+
+            }
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+        }
+
+        .loading-text {
+            margin-left: 10px;
+        }
+
+        /*
+        loading------------------------------------------------------------
+         */
+
+        /*
+        底层的约束面板
+        */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        {#background-color: #fff;#}{#border-radius: 4px;#}{#box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);#} position: relative;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            {#margin-bottom: 10px;#}
+            font-size: 16px;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        input[type=text] {
+            padding: 10px;
+            border: 1px solid #ccc;
+        {#border-radius: 4px;#} box-sizing: border-box;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 0px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+
+
+        }
+
+        #input {
+            color: #D1D5D8;
+        }
+
+        textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 650px;
+            resize: none;
+            font-size: 16px;
+
+
+        }
+
+        button {
+        {#background-color: #4caf50;#}{#color: white;#} padding: 10px 50px;
+            border: none;
+        {#border-radius: 4px;#} cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            color: #fff;
+            background-color: #10A37F;
+            border-color: #10A37F;
+            border-bottom: 1px solid #2494be !important;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+
+        }
+
+        button:hover {
+            background-color: #7bc9e6;
+        }
+
+        .overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            background: #40414f;
+
+        {#background-color: #526170;#}{#-webkit-box-shadow: none;#}{#box-shadow: none;#}{#color: #fff;#}
+        }
+
+
+        .logo-lg {
+            font-size: 30px !important;
+            font-weight: 700;
+            line-height: 70px;
+            color: #D1D5D8 !important;
+            display: inline-block;
+            width: 150px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .icon-lg {
+        {#padding: 50px;#} width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-container input {
+            flex: 1;
+            margin-right: 5px;
+        }
+
+        .input-container button {
+            flex-shrink: 0;
+        }
+
+        /*
+        /*气泡效果，让展示框体显得更圆润一些
+         */
+        #output {
+            position: relative;
+        {#padding: 10px;#}{#margin: 10px;#}{#    background-color: #fff;#} border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            background: #444654;
+            color: #D1D5D8;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        #output::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -20px;
+            border-style: solid;
+            border-width: 10px 20px 10px 0;
+            border-color: transparent #fff transparent transparent;
+        }
+
+        .parent {
+            display: flex;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+{#<span class="logo-lg"> 阿甲摸鱼器 </span>#}
+{#<span class="logo-lg"> chatGPT 3.5 </span>#}
+{#<span class="logo-lg"> Q的测试模块 </span>#}
+{# 保留记录 #}
+<div class="container">
+
+    <div class="parent" >
+        <img class="icon-lg" src="https://res.unionepay.com/prod/2023/03/17/20230317165946A557.jpg" >
+        <span class="logo-lg"> Q的测试模块 </span>
+    </div>
+    <div class="overlay">
+        <div class="overlay-content">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div class="loading-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+    {#    <label for="input">输入：</label>#}
+
+    <textarea id="output" rows="5" readonly="true" placeholder="---等待响应---"></textarea>
+
+    <div class="input-container">
+
+        {#        <label for="output">等待回答：</label>#}
+
+        <input class="form-control" type="text" id="input" placeholder="输入">
+        <button onclick="display()" id="btn">发送</button>
+    </div>
+</div>
+<script>
+
+    function display() {
+        var input = document.getElementById("input").value;
+        if (input === "") {
+            alert("请输入内容");
+        } else {
+            var output = document.getElementById("output");
+            var previousContent = output.value;
+
+
+            $('#btn').attr('disabled', true);
+            $('.overlay').show();
+            $.ajax({
+                type: "POST",
+                url: "/chatGPT",
+                data: {"inputText": input},
+                success: function (response) {
+                    $('#chatbox').append('<div class="row mb-3"><div class="col-md-6"><div class="card"><div class="card-body"><p class="card-text">' + response + '</p></div></div></div></div>');
+                            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                },
+                error: function (jqXHR) {
+                    document.getElementById("output").value = previousContent +"请求失败，检查梯子，状态码：" + jqXHR.status ;
+                    {#document.getElementById("output").value = "请求失败，HTTP状态码：" + jqXHR.status;#}
+                },
+                complete: function () {
+                    $('#btn').attr('disabled', false);
+                    $('.overlay').hide();
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>
