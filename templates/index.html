@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>chatGPT_3.5</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>chatGPT 3.5 </title>
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-3.6.0.js">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <style>
         body {
             background: #343541;
@@ -83,24 +85,24 @@
         底层的约束面板
         */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
         {#background-color: #fff;#}{#border-radius: 4px;#}{#box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);#} position: relative;
         }
 
+
         label {
             display: inline-block;
             width: 150px;
-            {#margin-bottom: 10px;#}
-            font-size: 16px;
+        {#margin-bottom: 10px;#} font-size: 16px;
             color: #555;
             white-space: nowrap;
         }
 
         input[type=text] {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #40404000;
         {#border-radius: 4px;#} box-sizing: border-box;
             width: 100%;
             font-size: 16px;
@@ -115,36 +117,53 @@
             color: #D1D5D8;
         }
 
-        textarea {
+        .infoWindows {
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        {#border: 1px solid #ccc;#} border-radius: 4px;
             box-sizing: border-box;
             width: 100%;
-            height: 650px;
+            {#height: 550px;#}
             resize: none;
             font-size: 16px;
-
+            overflow: auto;
+            height: 70vh;
 
         }
 
+        .infoWindows::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .infoWindows::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        .infoWindows::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+
+        .infoWindows::-webkit-scrollbar-thumb:hover {
+            background-color: #999;
+        }
+
         button {
+            margin-top: 10px;
         {#background-color: #4caf50;#}{#color: white;#} padding: 10px 50px;
             border: none;
         {#border-radius: 4px;#} cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
             color: #fff;
-            background-color: #10A37F;
-            border-color: #10A37F;
-            border-bottom: 1px solid #2494be !important;
-            border-radius: 10px;
+            background-color: #477eff;
+            border-color: #477eff;
+        {#border-bottom: 1px solid #2494be !important;#} border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 
         }
 
         button:hover {
-            background-color: #7bc9e6;
+            background-color: #3affa5;
         }
 
         .overlay {
@@ -169,9 +188,10 @@
         }
 
         .form-control {
+            margin-top: 10px;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            background: #40414f;
+            background: #444654;
 
         {#background-color: #526170;#}{#-webkit-box-shadow: none;#}{#box-shadow: none;#}{#color: #fff;#}
         }
@@ -195,7 +215,7 @@
         {#padding: 50px;#} width: 60px;
             height: 60px;
             border-radius: 50%;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
 
 
@@ -230,9 +250,7 @@
             position: absolute;
             top: 10px;
             left: -20px;
-            border-style: solid;
-            border-width: 10px 20px 10px 0;
-            border-color: transparent #fff transparent transparent;
+        {#border-style: solid;#}{#border-width: 10px 20px 10px 0;#}{#border-color: transparent #fff transparent transparent;#}
         }
 
         .parent {
@@ -240,6 +258,168 @@
             align-items: center;
         }
 
+        .chat-bubble {
+            max-width: 60%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .chat-bubble {
+            max-width: 60%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .user-bubble {
+            background-color: #8ED6FF;
+            float: right;
+        }
+
+        .gpt-bubble {
+            background-color: #086cff;
+            float: left;
+        }
+
+        @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--app-bg);
+            font-family: "DM Sans", sans-serif;
+            --message-box-1: #fff;
+            --message-box-2: #1a233b;
+            --chat-input: #060415;
+            --border-light: #8187a2;
+            --app-bg: #343541;
+            --box-color: #12172d;
+            --box-border: #477eff;
+            --text-dark: rgba(255, 255, 255, 1);
+            --text-light: rgba(255, 255, 255, .6);
+            --message-box-2: #477eff;
+            --message-box-1: #576c99;
+            --box-shadow: rgba(18, 23, 45, .6) 0px 8px 24px;
+        }
+
+
+        .message-wrapper {
+            display: flex;
+            align-items: flex-start;
+            padding-bottom: 50px;
+        }
+
+        .message-wrapper.reverse {
+            justify-content: flex-end;
+        }
+
+        .message-wrapper.reverse .message-box {
+            background-color: var(--message-box-2);
+            color: #fff;
+        }
+
+        .message-wrapper.reverse .message-box-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .message-wrapper.reverse .message-pp {
+            order: 2;
+        }
+
+        .message-pp {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            -o-object-fit: cover;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .message-box {
+            background-color: var(--message-box-1);
+            box-shadow: var(--box-shadow);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 15px;
+            line-height: 20px;
+            width: auto;
+            max-width: 500PX;
+            color: var(--text-dark);
+        {#padding-right: 20px;#}
+        }
+
+        .message-box-wrapper {
+            margin: 0 12px;
+        }
+
+        .message-box-wrapper span {
+            font-size: 10px;
+            line-height: 16px;
+            color: var(--text-light);
+            opacity: 0.6;
+        }
+
+        /* 定义按钮样式 */
+        #popup-button {
+            background-color: #4caf4e;
+            color: #ffffff;
+            border: none;
+            padding: 0px 3px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 10px;
+            margin: 4px 5px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        /* 定义浮窗样式 */
+        #popup-container {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        #popup-content {
+            background-color: #444654;
+            margin: 15% auto;
+            padding: 20px;
+        {#border: 1px solid #888;#} width: 40%;
+            text-align: left;
+            border-radius: 8px;
+            color: #ffffff;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid rgba(221, 221, 221, 0);
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: rgba(242, 242, 242, 0);
+        }
     </style>
 </head>
 <body>
@@ -249,60 +429,128 @@
 {# 保留记录 #}
 <div class="container">
 
-    <div class="parent" >
-        <img class="icon-lg" src="https://res.unionepay.com/prod/2023/03/17/20230317165946A557.jpg" >
-        <span class="logo-lg"> Q的测试模块 </span>
+    <div class="parent">
+        <img class="icon-lg" src="https://s1.ax1x.com/2023/03/20/ppNdSVH.jpg">
+        <span class="logo-lg"> TestDemo </span>
+        <!-- 创建按钮 -->
+{#        <button id="popup-button">?</button>#}
+        <!-- 创建浮窗 -->
+        <div id="popup-container">
+            <div id="popup-content">
+                <h4>维护日志：</h4>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>2023-03-21</td>
+                        <td>新增聊天气泡</td>
+                    </tr>
+                    <tr>
+                        <td>2023-03-23</td>
+                        <td>修复聊天气泡溢出框体问题</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                {#                <img src="your-qrcode-image-url" alt="QR Code">#}
+            </div>
+        </div>
+        {#        <span class="logo-lg"> （极不稳定，随时会寄） </span>#}
     </div>
     <div class="overlay">
         <div class="overlay-content">
             <div class="loading">
                 <div class="spinner"></div>
-                <div class="loading-text">Loading...</div>
+                {#                <div class="loading-text">Loading...</div>#}
             </div>
         </div>
     </div>
     {#    <label for="input">输入：</label>#}
-
-    <textarea id="output" rows="5" readonly="true" placeholder="---等待响应---"></textarea>
-
+    <div id="output" class="infoWindows"></div>
     <div class="input-container">
 
         {#        <label for="output">等待回答：</label>#}
 
         <input class="form-control" type="text" id="input" placeholder="输入">
         <button onclick="display()" id="btn">发送</button>
+
     </div>
 </div>
 <script>
+    //==============================回车输入==================================
+    // 获取输入框元素
+    const inputElement = document.getElementById("input");
 
+    // 监听用户按下回车键的事件
+    inputElement.addEventListener("keydown", function (event) {
+        // 如果用户按下了回车键
+        if (event.keyCode === 13) {
+            // 阻止默认的换行行为
+            event.preventDefault();
+            // 调用 display 函数来处理用户输入
+            display();
+        }
+    });
+
+    //==============================回车输入==================================
     function display() {
         var input = document.getElementById("input").value;
         if (input === "") {
             alert("请输入内容");
         } else {
-            var output = document.getElementById("output");
-            var previousContent = output.value;
-
-
-            $('#btn').attr('disabled', true);
+            document.getElementById("input").value = "";
+            let outputElement = document.getElementById("output");
+            // 将用户输入附加到 output 元素上
+            outputElement.insertAdjacentHTML('beforeend', '<div class="message-wrapper reverse"><div class="message-box-wrapper"><div class="message-box">' + input + '</div></div></div>');
+            // 禁用按钮并显示遮罩层
+            {#$('#btn').attr('disabled', true);#}
             $('.overlay').show();
             $.ajax({
                 type: "POST",
                 url: "/chatGPT",
                 data: {"inputText": input},
+
                 success: function (response) {
-                    $('#chatbox').append('<div class="row mb-3"><div class="col-md-6"><div class="card"><div class="card-body"><p class="card-text">' + response + '</p></div></div></div></div>');
-                            $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                    // 将 response 分成多个段落
+                    const paragraphs = response.split('\n');
+                    // 创建一个空字符串用于存储每个段落的 HTML 代码
+                    let html = '';
+                    // 将每个段落包装在 <p> 标签中，并将 HTML 代码添加到字符串中
+                    paragraphs.forEach(paragraph => {
+                        html += '<p>' + paragraph + '</p>';
+                    });
+                    // 将 GPT 回应附加到 output 元素上
+                    outputElement.innerHTML += '<div class="message-wrapper"><div class="message-box-wrapper"><div class="message-box">' + html + '</div></div></div>';
+
+
+                    // 滚动到 output 元素的底部
+                    outputElement.scrollTop = outputElement.scrollHeight;
                 },
                 error: function (jqXHR) {
-                    document.getElementById("output").value = previousContent +"请求失败，检查梯子，状态码：" + jqXHR.status ;
-                    {#document.getElementById("output").value = "请求失败，HTTP状态码：" + jqXHR.status;#}
+                    // 将错误信息附加到 output 元素上
+                    outputElement.innerHTML += '<div class="message-wrapper"><div class="message-box-wrapper"><div class="message-box">' + "请求失败，检查梯子，状态码：" + jqXHR.status + '\n' + '</div></div></div>';
                 },
                 complete: function () {
-                    $('#btn').attr('disabled', false);
+                    // 启用按钮并隐藏遮罩层
+                    {#$('#btn').attr('disabled', false);#}
                     $('.overlay').hide();
                 }
             });
+        }
+    }
+
+    // 获取按钮和浮窗元素
+    var button = document.getElementById("popup-button");
+    var popup = document.getElementById("popup-container");
+
+    // 当按钮被点击时，显示浮窗
+    button.onclick = function () {
+        popup.style.display = "block";
+    }
+
+    // 当用户点击浮窗外部或浮窗内部的关闭按钮时，隐藏浮窗
+    window.onclick = function (event) {
+        if (event.target == popup || event.target.parentElement.id == "popup-content") {
+            popup.style.display = "none";
         }
     }
 </script>

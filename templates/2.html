@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>chatGPT 3.5（极不稳定，随时会寄） </title>
+    <title>chatGPT 3.5 </title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -99,7 +99,7 @@
 
         input[type=text] {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #40404000;
         {#border-radius: 4px;#} box-sizing: border-box;
             width: 100%;
             font-size: 16px;
@@ -116,13 +116,32 @@
 
         .infoWindows {
             padding: 10px;
-            border: 1px solid #ccc;
+            {#border: 1px solid #ccc;#}
             border-radius: 4px;
             box-sizing: border-box;
             width: 100%;
             height: 650px;
             resize: none;
             font-size: 16px;
+            overflow: auto;
+
+        }
+
+        .infoWindows::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .infoWindows::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+
+        .infoWindows::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 5px;
+        }
+
+        .infoWindows::-webkit-scrollbar-thumb:hover {
+            background-color: #999;
         }
 
         button {
@@ -133,8 +152,8 @@
             font-size: 16px;
             transition: background-color 0.3s ease;
             color: #fff;
-            background-color: #10A37F;
-            border-color: #10A37F;
+            background-color: #477eff;
+            border-color: #477eff;
             border-bottom: 1px solid #2494be !important;
             border-radius: 10px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
@@ -229,9 +248,7 @@
             position: absolute;
             top: 10px;
             left: -20px;
-            {#border-style: solid;#}
-            {#border-width: 10px 20px 10px 0;#}
-            {#border-color: transparent #fff transparent transparent;#}
+        {#border-style: solid;#}{#border-width: 10px 20px 10px 0;#}{#border-color: transparent #fff transparent transparent;#}
         }
 
         .parent {
@@ -264,85 +281,90 @@
             background-color: #086cff;
             float: left;
         }
+
         @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
-* {
-  box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: var(--app-bg);
-  font-family: "DM Sans", sans-serif;
-  --message-box-1: #fff;
-  --message-box-2: #1a233b;
-  --chat-input: #060415;
-  --border-light: #8187a2;
-  --app-bg: #343541;
-  --box-color: #12172d;
-  --box-border: #477eff;
-  --text-dark: rgba(255,255,255,1);
-  --text-light: rgba(255,255,255,.6);
-  --message-box-2: #477eff;
-  --message-box-1: #576c99;
-  --box-shadow: rgba( 18, 23, 45 ,.6) 0px 8px 24px;
-}
-
-
-
-.message-wrapper {
-  display: flex;
-  align-items: flex-start;
-  padding-bottom: 50px;
-}
-.message-wrapper.reverse {
-  justify-content: flex-end;
-}
-.message-wrapper.reverse .message-box {
-  background-color: var(--message-box-2);
-  color: #fff;
-}
-.message-wrapper.reverse .message-box-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.message-wrapper.reverse .message-pp {
-  order: 2;
-}
-
-.message-pp {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  flex-shrink: 0;
-}
-
-.message-box {
-  background-color: var(--message-box-1);
-  box-shadow: var(--box-shadow);
-  border-radius: 4px;
-  padding: 10px;
-  font-size: 15px;
-  line-height: 16px;
-  width: auto;
-  max-width: 80%;
-  color: var(--text-dark);
-}
-.message-box-wrapper {
-  margin: 0 12px;
-}
-.message-box-wrapper span {
-  font-size: 10px;
-  line-height: 16px;
-  color: var(--text-light);
-  opacity: 0.6;
-}
+        body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--app-bg);
+            font-family: "DM Sans", sans-serif;
+            --message-box-1: #fff;
+            --message-box-2: #1a233b;
+            --chat-input: #060415;
+            --border-light: #8187a2;
+            --app-bg: #343541;
+            --box-color: #12172d;
+            --box-border: #477eff;
+            --text-dark: rgba(255, 255, 255, 1);
+            --text-light: rgba(255, 255, 255, .6);
+            --message-box-2: #477eff;
+            --message-box-1: #576c99;
+            --box-shadow: rgba(18, 23, 45, .6) 0px 8px 24px;
+        }
 
 
+        .message-wrapper {
+            display: flex;
+            align-items: flex-start;
+            padding-bottom: 50px;
+        }
+
+        .message-wrapper.reverse {
+            justify-content: flex-end;
+        }
+
+        .message-wrapper.reverse .message-box {
+            background-color: var(--message-box-2);
+            color: #fff;
+        }
+
+        .message-wrapper.reverse .message-box-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .message-wrapper.reverse .message-pp {
+            order: 2;
+        }
+
+        .message-pp {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            -o-object-fit: cover;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .message-box {
+            background-color: var(--message-box-1);
+            box-shadow: var(--box-shadow);
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 15px;
+            line-height: 16px;
+            width: auto;
+            max-width: 500PX;
+            color: var(--text-dark);
+        {#padding-right: 20px;#}
+        }
+
+        .message-box-wrapper {
+            margin: 0 12px;
+        }
+
+        .message-box-wrapper span {
+            font-size: 10px;
+            line-height: 16px;
+            color: var(--text-light);
+            opacity: 0.6;
+        }
 
 
     </style>
@@ -355,8 +377,8 @@ body {
 <div class="container">
 
     <div class="parent">
-                <img class="icon-lg" src="C:\Users\Administrator\Pictures\usericon.jpg">
-        <span class="logo-lg"> Q的测试模块 </span>
+        <img class="icon-lg" src="https://s1.ax1x.com/2023/03/20/ppNdSVH.jpg">
+        <span class="logo-lg"> TestDemo </span>
         {#        <span class="logo-lg"> （极不稳定，随时会寄） </span>#}
     </div>
     <div class="overlay">
@@ -373,7 +395,7 @@ body {
 
         {#        <label for="output">等待回答：</label>#}
 
-        <input class="form-control" type="text" id="input" placeholder="输入" >
+        <input class="form-control" type="text" id="input" placeholder="输入">
         <button onclick="display()" id="btn">发送</button>
 
     </div>
@@ -389,12 +411,11 @@ body {
             const outputElement = document.getElementById("output");
 
             // 将用户输入附加到 output 元素上
-            outputElement.innerHTML +=
-                    '<div class="message-wrapper reverse"><div class="message-box-wrapper"><div class="message-box">'+input+'</div></div></div>';
+            outputElement.insertAdjacentHTML('beforeend', '<div class="message-wrapper reverse"><div class="message-box-wrapper"><div class="message-box">' + input + '</div></div></div>');
+
             // 禁用按钮并显示遮罩层
             $('#btn').attr('disabled', true);
             $('.overlay').show();
-
             $.ajax({
                 type: "POST",
                 url: "/chatGPT",
@@ -402,7 +423,7 @@ body {
 
                 success: function (response) {
                     // 将 GPT 回应附加到 output 元素上
-                    outputElement.innerHTML += '<div class="message-wrapper"><div class="message-box-wrapper"><div class="message-box">'+response+'</div></div></div>';
+                    outputElement.innerHTML += '<div class="message-wrapper"><div class="message-box-wrapper"><div class="message-box">'+ response + '</div></div></div>';
 
 
                     // 滚动到 output 元素的底部
@@ -410,7 +431,7 @@ body {
                 },
                 error: function (jqXHR) {
                     // 将错误信息附加到 output 元素上
-                    outputElement.value += "请求失败，检查梯子，状态码：" + jqXHR.status + '\n';
+                    outputElement.innerHTML += '<div class="message-wrapper"><div class="message-box-wrapper"><div class="message-box">' + "请求失败，检查梯子，状态码：" + jqXHR.status + '\n' + '</div></div></div>';
                 },
                 complete: function () {
                     // 启用按钮并隐藏遮罩层

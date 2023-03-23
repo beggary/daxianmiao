@@ -6,18 +6,16 @@ import os
 app = Flask(__name__)
 urllib3.disable_warnings()
 # %%
-openai.api_key = "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"
+openai.api_key = "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"
 
 # %%
 # os.environ["HTTPS_PROXY"] = '172.104.102.91:8080'
-
-
 # os.environ['HTTPS_PROXY'] = 'http://185.160.26.114:80'
 
 
 @app.route('/')
 def index():
-    return render_template("2.html")
+    return render_template("index.html")
 
 
 @app.errorhandler(404)
@@ -27,21 +25,20 @@ def page_not_found(error):
 
 @app.route('/chatGPT', methods=['POST'])
 def chatGPT():
-    while True:
-        inputText = request.form['inputText']
-        messages = [{"role": "system", "content": inputText}]
-        response = openai.ChatCompletion.create(
+    inputText = request.form['inputText']
+    user_ip = request.remote_addr
+    response = openai.ChatCompletion.create(
 
-            model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo",
 
-            messages=messages
-        )
-        # 后台打印
-        print(inputText)
-        print(response.get("choices")[0]["message"]["content"])
-        talk = response.get("choices")[0]["message"]["content"]
-        messages.append({"role": "system", "content": talk})
-        return talk
+        messages=[
+            # {"role": "system", "content": "Python开发经验的资深算法工程师"},
+            #
+            {"role": "user", "content": inputText}
+        ]
+    )
+    talk = response.get("choices")[0]["message"]["content"]
+    return talk
 
 
 # if __name__ == '__main__':
